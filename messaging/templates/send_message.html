@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="mb-0">
+                        <i class="fas fa-paper-plane me-2"></i>Send Message
+                    </h2>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="form-group mb-4">
+                            <label for="{{ form.recipient.id_for_label }}" class="form-label">
+                                <i class="fas fa-user me-2"></i>Recipient
+                            </label>
+                            {{ form.recipient.errors }}
+                            {{ form.recipient|add_class:"form-control" }}
+                            {% if form.recipient.help_text %}
+                                <small class="form-text text-muted">
+                                    <i class="fas fa-info-circle me-1"></i>{{ form.recipient.help_text }}
+                                </small>
+                            {% endif %}
+                        </div>
+                        <div class="form-group mb-4">
+                            <label for="{{ form.plaintext_message.id_for_label }}" class="form-label">
+                                <i class="fas fa-envelope me-2"></i>Message
+                            </label>
+                            {{ form.plaintext_message.errors }}
+                            {{ form.plaintext_message|add_class:"form-control" }}
+                            {% if form.plaintext_message.help_text %}
+                                <small class="form-text text-muted">
+                                    <i class="fas fa-lock me-1"></i>{{ form.plaintext_message.help_text }}
+                                </small>
+                            {% endif %}
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-paper-plane me-2"></i>Send Message
+                            </button>
+                            <a href="{% url 'inbox' %}" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left me-2"></i>Back to Inbox
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
