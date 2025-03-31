@@ -6,7 +6,7 @@ from django.contrib.auth.views import LoginView, LogoutView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # Redirect the root URL to another valid view, e.g., create_message
+    # redirect the root URL to another view, e.g., create_message
     path('', lambda request: redirect('create_message'), name='root'),
     path('register/', register, name='register'),
     path('login/', LoginView.as_view(template_name='login.html'), name='login'),
@@ -22,8 +22,7 @@ from . import views
 
 urlpatterns += [
     path('create/', views.create_message, name='create_message'),
-    # Other messaging-related paths
-    # Make sure there's no 'home' view here
+    
 ]
 
 from django.urls import path
@@ -36,5 +35,5 @@ urlpatterns += [
     path('logout/', LogoutView.as_view(), name='logout'),
     path('inbox/', inbox, name='inbox'),
     path('send/', send_message, name='send_message'),
-    path('', inbox, name='home'),  # Default route goes to inbox
+    path('', inbox, name='home'),  # Default 
 ]

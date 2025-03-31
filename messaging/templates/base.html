@@ -157,6 +157,8 @@
     </style>
 </head>
 <body>
+
+    
     <nav class="navbar navbar-expand-lg">
         <div class="container">
             <a class="navbar-brand" href="{% url 'home' %}">
@@ -188,10 +190,15 @@
                         </li>
                         {% endif %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'logout' %}">
-                                <i class="fas fa-sign-out-alt me-1"></i>Logout
-                            </a>
+                            <form action="{% url 'logout' %}" method="post" style="display: inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="nav-link" style="border: none; background: none; cursor: pointer;" 
+                                onclick="if(confirm('Confirm Logout?')) window.location.href='{% url 'logout' %}'">
+                                    <i class="fas fa-sign-out-alt me-1"></i>Logout
+                                </button>
+                            </form>
                         </li>
+                        
                     {% else %}
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'login' %}">

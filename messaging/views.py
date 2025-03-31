@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
 from .models import Message, User
@@ -69,6 +69,14 @@ def send_message(request):
     if request.method == 'POST':
         form = MessageForm(request.POST)
         if form.is_valid():
+
+            recipient = form.cleaned_data['recipient']
+            
+            # Prevent sending messages to self
+            if recipient == request.user:
+                messages.error(request, "You cannot send a message to yourself.")
+                return redirect('send_message')
+            
             message = form.save(commit=False)
             message.sender = request.user
             recipient = message.recipient
@@ -84,10 +92,12 @@ def send_message(request):
 @login_required
 def delete_message(request, message_id):
     message = get_object_or_404(Message, id=message_id)
-    # Check if user has permission to delete (either sender or recipient)
+    # check if user has permission to delete (sender or recipient)
     if message.sender == request.user or message.recipient == request.user:
         message.delete()
         messages.success(request, "Message deleted successfully!")
     else:
         messages.error(request, "You don't have permission to delete this message!")
     return redirect('inbox')
+
+
