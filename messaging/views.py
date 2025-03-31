@@ -92,12 +92,19 @@ def send_message(request):
 @login_required
 def delete_message(request, message_id):
     message = get_object_or_404(Message, id=message_id)
-    # check if user has permission to delete (sender or recipient)
-    if message.sender == request.user or message.recipient == request.user:
+    
+    # Check if the user is a superuser (admin)
+    if request.user.is_superuser:
+        
+        message.delete()
+        messages.success(request, "Message deleted successfully!")
+    # Check if the user is the sender or the recipient
+    elif message.sender == request.user or message.recipient == request.user:
         message.delete()
         messages.success(request, "Message deleted successfully!")
     else:
         messages.error(request, "You don't have permission to delete this message!")
+    
     return redirect('inbox')
 
 

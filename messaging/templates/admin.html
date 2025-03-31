@@ -81,7 +81,8 @@
                                 <td class="text-end pe-4">
                                     <form method="post" action="{% url 'delete_message' message.id %}" style="display: inline;">
                                         {% csrf_token %}
-                                        <button type="submit" class="btn btn-sm btn-outline-danger">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger"
+                                        onclick="return confirm('Are you sure you want to delete this message?')">
                                             <i class="fas fa-trash me-1"></i>Delete
                                         </button>
                                     </form>
