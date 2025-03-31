@@ -33,7 +33,7 @@
                                     {% endif %}
                                 </td>
                                 <td class="text-end pe-4">
-                                    <form method="post" action="{% url 'toggle_user' user.id %}" style="display: inline;">
+                                    <form method="post" action="{% url 'toggle_user' user.id %}" style="display: inline;" onsubmit="return confirmAction();">
                                         {% csrf_token %}
                                         <button type="submit" class="btn btn-sm {% if user.is_active %}btn-outline-danger{% else %}btn-outline-success{% endif %}">
                                             {% if user.is_active %}
@@ -43,6 +43,13 @@
                                             {% endif %}
                                         </button>
                                     </form>
+                                    
+                                    <script>
+                                      function confirmAction() {
+                                        return confirm('Are you sure you want to change the status of this user?');
+                                      }
+                                    </script>
+                                    
                                 </td>
                             </tr>
                             {% endfor %}

@@ -25,6 +25,7 @@ def toggle_user(request, user_id):
         user = get_object_or_404(User, id=user_id)
         user.is_active = not user.is_active
         user.save()
+        messages.success(request, "User status changed successfuly!")
     return redirect('admin_panel')
 
 def register(request):
